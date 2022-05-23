@@ -1,0 +1,10 @@
+public static void createExcel() throws BiffException{
+        try{
+        Workbook wb = Workbook.getWorkbook(new File("C:\\Users\\akshara\\Desktop\\canteennew.xls"));
+        WritableWorkbook copy = Workbook.createWorkbook(new File("cfile.xls"),wb);
+        copy.createSheet("first sheet", 0);
+        copy.write();
+        copy.close();
+        }catch(IOException | WriteException e){
+        }
+    }
