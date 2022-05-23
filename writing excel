@@ -1,0 +1,92 @@
+public static void writingExcel(){
+    try{
+        Workbook wb = Workbook.getWorkbook(new File("C:\\Users\\akshara\\Desktop\\canteennew.xls"));
+        WritableWorkbook copy = Workbook.createWorkbook(new File("cfile.xls"),wb);
+        WritableSheet copySheet = copy.getSheet(0);
+        int row = copySheet.getRows();
+        String itemname[] = new String[row];
+        String itemprice[] = new String[row];
+        String itemquan[] = new String[row];
+        int opt;
+        do{
+        System.out.println("\n1.Enter new item\n2.Delete item\n3.Add number of available product\n4.Exit\n");
+        System.out.println("Enter option: ");
+        Scanner scan = new Scanner(System.in);
+        opt = scan.nextInt();
+        Scanner scan2 = new Scanner(System.in);
+        Scanner scan3 = new Scanner(System.in);
+        Scanner scan4 = new Scanner(System.in);
+        switch(opt){
+            case 1:
+                System.out.println("Enter the number of items you would like to add to the list: ");
+                int j = scan.nextInt();
+                for(int i = 0;i<j;i++){
+                    System.out.println("Enter the name of "+(i+1)+ " the item to add:");
+                    itemname[i] = scan2.nextLine();
+                    System.out.println("Enter it's price: ");
+                    itemprice[i] = scan3.nextLine();
+                    System.out.println("Enter the quantity available for sale: ");
+                    itemquan[i] = scan4.nextLine();
+                }
+                for(int i = 0;i<j;i++){
+                    int m = i+row;
+                    String k = Integer.toString(m);
+                    Label label = new Label(0,m,k);
+                    copySheet.addCell(label);
+                    Label label1 = new Label(1,m,itemname[i]);
+                    copySheet.addCell(label1);
+                    Label label2 = new Label(3,m,itemprice[i]);
+                    copySheet.addCell(label2);
+                    Label label3 = new Label(2,m,itemquan[i]);
+                    copySheet.addCell(label3);
+                }
+                row = copySheet.getRows();
+                break;
+            case 2:
+                System.out.println("Enter the item number for which you would like to delete: ");
+                Scanner scan6 = new Scanner(System.in);
+                int it1 = scan6.nextInt();
+                for(int i = 0;i<4;i++){
+                    Label lab = new Label(i,it1," ");
+                    copySheet.addCell(lab);
+                }
+                for(int i = it1+1;i<row;i++){
+                    for(int jl = 0;jl<1;jl++){
+                       Cell m = copySheet.getCell(1,i);
+                       itemname[i] = m.getContents();
+                    }
+                    for(int jl =0;jl<1;jl++){
+                       Cell c = copySheet.getCell(2,i);
+                       itemquan[i] = c.getContents();
+                    }
+                   for(int jl = 0;jl<1;jl++){
+                       Cell k = copySheet.getCell(3,i);
+                       itemprice[i] = k.getContents();
+                   }
+               }
+                break;
+            case 3:
+                System.out.println("Enter the item number for which you would like to edit: ");
+                Scanner scan5 = new Scanner(System.in);
+                int it = scan5.nextInt();
+                Cell jk = copySheet.getCell(1,it); 
+                String anyone = jk.getContents();
+                System.out.println("Enter the quantity change you would like to make for "+anyone+":");
+                int m = scan5.nextInt();
+                String k = Integer.toString(m);
+                Label lab = new Label(2,it,k);
+                copySheet.addCell(lab);
+                break;
+            case 4:
+                System.out.println("\t\t\t\tTHANK YOU for using the ADMIN mode\n");
+                break;
+            default:
+                break;
+        }
+        }while(opt!=4);
+        copy.write();
+        copy.close();
+       
+    }catch(IOException | IndexOutOfBoundsException | BiffException | WriteException e){
+    }
+    }
